@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Add Free Dates</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="date">Date:</label>
+    <input type="date" name="date" required><br><br>
+    <input type="submit" value="Add Date">
+  </form>
+{% endblock %}
