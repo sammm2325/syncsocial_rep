@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import User, FreeDate
 from .forms import LoginForm, CreateUserForm, AddFriendsForm, AddFreeDatesForm
@@ -8,15 +9,18 @@ def home(request):
 
 def login_view(request):
     if request.method == 'POST':
-        # Logic for handling login form submission
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            # Perform login validation and authentication
-            # Redirect to appropriate page based on login success or failure
-            pass
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect the user to the desired page (e.g., home.html)
+            return redirect('home')
+        else:
+            # Handle invalid login credentials (e.g., display an error message)
+            return render(request, 'login.html', {'error': 'Invalid email or password.'})
     else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+        return render(request, 'login.html')
 
 def create_user(request):
     if request.method == 'POST':
