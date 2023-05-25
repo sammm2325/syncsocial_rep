@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from syncsocial import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('login/', views.login_view, name='login'),
+    path('createuser/', views.create_user, name='createuser'),
+    path('addfriends/', views.add_friends, name='addfriends'),
+    path('addfreedates/', views.add_free_dates, name='addfreedates'),
+    path('notifications/', views.notifications, name='notifications'),
 ]
