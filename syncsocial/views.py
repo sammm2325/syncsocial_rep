@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from .models import User, FreeDate
 from .forms import LoginForm, CreateUserForm, AddFriendsForm, AddFreeDatesForm
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 
 def home(request):
    # Logic for the home page
@@ -22,16 +23,16 @@ def login_view(request):
    return render(request, 'login.html', {'form': form})
 
 
-def create_user(request):
+def createuser(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the form instance, not the form itself
+            user = form.save()  # Save the user
+            # You can perform additional actions like authentication, login, etc. if needed
             return redirect('home')
     else:
         form = CreateUserForm()
-    return render(request, 'create_user.html', {'form': form})
-
+    return render(request, 'createuser.html', {'form': form})
 
 def add_friends(request):
    if request.method == 'POST':
