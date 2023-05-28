@@ -23,24 +23,14 @@ def login_view(request):
 
 
 def create_user(request):
-   if request.method == 'POST':
-       form = CreateUserForm(request.POST)
-       if form.is_valid():
-           email = form.cleaned_data['email']
-           if User.objects.filter(email=email).exists():
-               messages.error(request, 'User with this email already exists.')
-           else:
-               form.save()
-               messages.success(request, 'User created successfully.')
-               return redirect('home')
-   else:
-       form = CreateUserForm()
-
-
-   messages.info(request, "Test message")  # Add this line to display a test message
-
-
-   return render(request, 'createuser.html', {'form': form})
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the form instance, not the form itself
+            return redirect('home')
+    else:
+        form = CreateUserForm()
+    return render(request, 'create_user.html', {'form': form})
 
 
 def add_friends(request):
