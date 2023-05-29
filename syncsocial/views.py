@@ -9,26 +9,30 @@ def home(request):
    # Logic for the home page
    return render(request, 'home.html')
 
-
 def login_view(request):
-   if request.method == 'POST':
-       # Logic for handling login form submission
-       form = LoginForm(request.POST)
-       if form.is_valid():
-           # Perform login validation and authentication
-           # Redirect to appropriate page based on login success or failure
-           pass
-   else:
-       form = LoginForm()
-   return render(request, 'login.html', {'form': form})
-
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data.get('user')
+            login(request, user)
+            return redirect('home')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 def createuser(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the user
-            # You can perform additional actions like authentication, login, etc. if needed
+            user = form.save(commit=False)
+            full_name = form.cleaned_data.get('full_name')
+            email = form.cleaned_data.get('email')  # Get the email from the form data
+            first_name, last_name = full_name.split(' ', 1)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = email  # Set the email as the username
+            user.email = email  # Set the email
+            user.save()
             return redirect('home')
     else:
         form = CreateUserForm()
@@ -46,7 +50,6 @@ def add_friends(request):
        form = AddFriendsForm()
    return render(request, 'addfriends.html', {'form': form})
 
-
 def add_free_dates(request):
    if request.method == 'POST':
        # Logic for handling add free dates form submission
@@ -58,7 +61,6 @@ def add_free_dates(request):
    else:
        form = AddFreeDatesForm()
    return render(request, 'addfreedates.html', {'form': form})
-
 
 def notifications(request):
    # Logic for the notifications page
