@@ -47,13 +47,20 @@ def add_friends(request):
         form = AddFriendsForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            friend = User.objects.filter(email=email).first()
-            if friend:
-                # Create a Friend object to represent the friendship
-                Friend.objects.create(user=request.user, friend=friend)
-                messages.success(request, f"{friend.username} has been added as a friend.")
+            
+            # Check if the friendship already exists
+            existing_friendship = Friend.objects.filter(user=request.user, friend__email=email).exists()
+            if existing_friendship:
+                messages.warning(request, "You have already added this friend.")
             else:
-                messages.error(request, "No user found with the provided email.")
+                friend = User.objects.filter(email=email).first()
+                if friend:
+                    # Create a Friend object to represent the friendship
+                    Friend.objects.create(user=request.user, friend=friend)
+                    messages.success(request, f"{friend.username} has been added as a friend.")
+                else:
+                    messages.error(request, "No user found with the provided email.")
+            
             return redirect('add_friends')
     else:
         form = AddFriendsForm()

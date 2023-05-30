@@ -2,11 +2,19 @@
 
 {% block content %}
   <h2>Add Friends</h2>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
   <form method="post">
     {% csrf_token %}
     <label for="email">Friend's Email:</label>
     <input type="email" name="email" required><br><br>
     <input type="submit" value="Add Friend">
   </form>
-
 {% endblock %}
