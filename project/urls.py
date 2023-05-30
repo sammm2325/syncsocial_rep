@@ -19,6 +19,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from syncsocial import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
    path('admin/', admin.site.urls),
@@ -26,7 +28,9 @@ urlpatterns = [
    path('login/', views.login_view, name='login'),
    path('createuser/', views.createuser, name='createuser'),
    path('add-friends/', views.add_friends, name='add_friends'),  # Fixed import
-   path('add-free-dates/', views.add_free_dates, name='add_free_dates'),  # Fixed import
+   path('add-free-dates/', views.add_free_dates, name='add_free_dates'),
    path('notifications/', views.notifications, name='notifications'),
+   path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),  # Use 'login' as the next_page parameter
+
 ]
 

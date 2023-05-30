@@ -27,4 +27,3 @@ class AddFriendsForm(forms.Form):
 
 class AddFreeDatesForm(forms.Form):
    date = forms.DateField()
-   time = forms.TimeField()

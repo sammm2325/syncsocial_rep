@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class FreeDate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='free_dates')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField()
 
     def __str__(self):

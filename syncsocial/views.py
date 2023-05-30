@@ -6,9 +6,11 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
 def home(request):
    # Logic for the home page
-   return render(request, 'home.html')
+    return render(request, 'home.html', {'user': request.user})
 
 def login_view(request):
     if request.method == 'POST':
@@ -72,14 +74,27 @@ def add_free_dates(request):
         form = AddFreeDatesForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
-            time = form.cleaned_data['time']
             # Create a FreeDate object for the current user
-            FreeDate.objects.create(user=request.user, date=date, time=time)
+            FreeDate.objects.create(user=request.user, date=date)
             messages.success(request, "Free date added successfully.")
             return redirect('add_free_dates')
     else:
         form = AddFreeDatesForm()
-    return render(request, 'addfreedates.html', {'form': form})
+        
+    free_dates = FreeDate.objects.filter(user=request.user)
+    return render(request, 'addfreedates.html', {'form': form, 'free_dates': free_dates})
 def notifications(request):
     # Logic for the notifications page
     return render(request, 'notifications.html')
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout(request):
+    # Perform any additional logout operations if needed
+    # For example, you can clear session data or perform other clean-up tasks
+    
+    # Logout the user
+    logout(request)
+    
+    # Redirect to the login page
+    return redirect('login')

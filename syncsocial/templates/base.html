@@ -3,7 +3,7 @@
 <head>
     <title>SyncSocial</title>
     <style>
-        /* Add your CSS styles herdwadwcae */
+        /* Add your CSS styles here */
         body {
             margin: 0;
             padding: 0;
@@ -32,8 +32,17 @@
             text-decoration: none;
         }
 
+        .user-info {
+            color: #ccc;
+            margin-left: 10px;
+        }
+
         main {
             padding: 20px;
+        }
+        .user-info {
+            color: #ccc;
+            margin-left: auto;
         }
     </style>
 </head>
@@ -42,10 +51,16 @@
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'add_friends' %}">Add Friends</a></li>
-                <li><a href="{% url 'add_free_dates' %}">Add Free Dates</a></li>
-                <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'add_friends' %}">Add Friends</a></li>
+                    <li><a href="{% url 'add_free_dates' %}">Add Free Dates</a></li>
+                    <li><a href="{% url 'notifications' %}">Notifications</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li class="user-info">Logged in as: {{ user.username }}</li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'createuser' %}">Create User</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
