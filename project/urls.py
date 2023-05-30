@@ -15,17 +15,18 @@ Including another URLconf
    1. Import the include() function: from django.urls import include, path
    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 from syncsocial import views
-
 
 urlpatterns = [
    path('admin/', admin.site.urls),
    path('', views.home, name='home'),
    path('login/', views.login_view, name='login'),
    path('createuser/', views.createuser, name='createuser'),
-   path('addfriends/', views.add_friends, name='addfriends'),
-   path('addfreedates/', views.add_free_dates, name='addfreedates'),
+   path('add-friends/', views.add_friends, name='add_friends'),  # Fixed import
+   path('add-free-dates/', views.add_free_dates, name='add_free_dates'),  # Fixed import
    path('notifications/', views.notifications, name='notifications'),
 ]
+
