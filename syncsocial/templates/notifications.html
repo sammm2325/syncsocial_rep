@@ -1,24 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Notifications</h2>
-
-  <h3>Your Friends:</h3>
-  <ul>
-    {% for friend in friends %}
-      <li>{{ friend.name }}</li>
-    {% empty %}
-      <li>No friends found.</li>
+    <h2>Notifications</h2>
+    {% for notification in notifications %}
+        <h3>{{ notification.friend.username }}</h3>
+        {% if notification.common_dates %}
+            <ul>
+                {% for date in notification.common_dates %}
+                    <li>{{ date.date }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No dates in common</p>
+        {% endif %}
     {% endfor %}
-  </ul>
-
-  <h3>Free Dates:</h3>
-  <ul>
-    {% for date in free_dates %}
-      <li>{{ date.date }}</li>
-    {% empty %}
-      <li>No free dates found.</li>
-    {% endfor %}
-  </ul>
-  
 {% endblock %}

@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.db.models import Q
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 def home(request):
    # Logic for the home page
@@ -83,11 +86,20 @@ def add_free_dates(request):
         
     free_dates = FreeDate.objects.filter(user=request.user)
     return render(request, 'addfreedates.html', {'form': form, 'free_dates': free_dates})
+
+@login_required
 def notifications(request):
-    # Logic for the notifications page
-    return render(request, 'notifications.html')
-from django.contrib.auth import logout
-from django.shortcuts import redirect
+    user = request.user
+    friends = Friend.objects.filter(user=user)
+    notifications = []
+    for friend in friends:
+        common_dates = FreeDate.objects.filter(
+            Q(user=user, date__in=FreeDate.objects.filter(user=friend.friend).values('date'))
+            | Q(user=friend.friend, date__in=FreeDate.objects.filter(user=user).values('date'))
+        )
+        notifications.append({'friend': friend.friend, 'common_dates': common_dates})
+
+    return render(request, 'notifications.html', {'notifications': notifications})
 
 def logout(request):
     # Perform any additional logout operations if needed
