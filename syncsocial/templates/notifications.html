@@ -2,16 +2,36 @@
 
 {% block content %}
     <h2>Notifications</h2>
-    {% for notification in notifications %}
-        <h3>{{ notification.friend.username }}</h3>
-        {% if notification.common_dates %}
-            <ul>
-                {% for date in notification.common_dates %}
-                    <li>{{ date.date }}</li>
+    {% if notifications %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Common Dates</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                    <tr>
+                        <td>{{ notification.friend.get_full_name }}</td>
+                        <td>{{ notification.friend.email }}</td>
+                        <td>
+                            {% if notification.common_dates %}
+                                <ul>
+                                    {% for date in notification.common_dates %}
+                                        <li>{{ date.date }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No dates in common</p>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
-        {% else %}
-            <p>No dates in common</p>
-        {% endif %}
-    {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No notifications</p>
+    {% endif %}
 {% endblock %}

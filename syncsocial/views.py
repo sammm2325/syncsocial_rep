@@ -99,10 +99,12 @@ def notifications(request):
         common_dates = FreeDate.objects.filter(
             Q(user=user, date__in=FreeDate.objects.filter(user=friend.friend).values('date'))
             | Q(user=friend.friend, date__in=FreeDate.objects.filter(user=user).values('date'))
-        )
+        ).values('date').distinct()  # Add .values('date').distinct() to select distinct date values
         notifications.append({'friend': friend.friend, 'common_dates': common_dates})
 
     return render(request, 'notifications.html', {'notifications': notifications})
+
+
 
 def logout(request):
     # Perform any additional logout operations if needed
