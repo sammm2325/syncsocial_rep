@@ -1,6 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Welcome to Our Project</h2>
-  <p>Our project, SyncSocial, aims to provide a platform where users can effortlessly coordinate and sync their schedules with friends. Through our intuitive web application, users can create an account, add friends, and share their available dates and times. SyncSocial simplifies the process of planning social events by notifying users about their friends' shared free dates, enabling seamless coordination and fostering stronger social connections. With a user-friendly interface and essential features like login, user creation, friend addition, and free date management, SyncSocial empowers users to synchronize their schedules effortlessly and enjoy more meaningful social interactions.</p>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+      font-family: 'Architects Daughter', cursive;
+    color: #fff;
+    background-image: url('https://picsum.photos/id/7/3000/2800');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200%;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity here */
+        z-index: -1;
+    }
+
+    .container {
+        padding: 50px;
+        position: relative;
+        z-index: 1;
+    }
+
+    h2 {
+      font-family:'Architects Daughter', cursive;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+
+  h3 {
+    font-size:30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+  p {
+      font-size: 22px;
+      text-align: center;
+  }
+
+</style>
+<div class="container">
+    <h2>Welcome to Sync Social!</h2>
+    <p>Welcome to SyncSocial, the ultimate hub for hassle-free schedule coordination and synchronization with friends! We know how chaotic planning social events can be, with endless back-and-forths, conflicting schedules, and missed connections. But fear not, because we're here to revolutionize the way you plan and organize your social life.Our intuitive web application is designed to simplify the process of planning social events, giving you the power to coordinate with your pals effortlessly. Say goodbye to those endless group chats and confusing spreadsheets. With SyncSocial, you can create an account, add your friends, and share your available dates and times, all in one place.
+    </p>
+    <h3>So, why wait? </h3>
+    <p>Join the SyncSocial revolution and unlock a world of synchronized schedules and meaningful social interactions. Say hello to stress-free planning and goodbye to missed opportunities. Sync up with us, and let's make every moment count!</p>
+</div>
 {% endblock %}
