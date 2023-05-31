@@ -11,12 +11,13 @@ class LoginForm(AuthenticationForm):
 
 
 class CreateUserForm(UserCreationForm):
-    full_name = forms.CharField(max_length=150, required=True)
+    full_name = forms.CharField(max_length=150, required=False)
     email = forms.EmailField()
 
     class Meta:
         model = User
         fields = ['email', 'password1', 'password2', 'full_name']
+
 
 
 class AddFriendsForm(forms.Form):

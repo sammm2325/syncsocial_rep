@@ -34,12 +34,19 @@ def createuser(request):
         if form.is_valid():
             user = form.save(commit=False)
             full_name = form.cleaned_data.get('full_name')
-            email = form.cleaned_data.get('email')  # Get the email from the form data
-            first_name, last_name = full_name.split(' ', 1)
+            email = form.cleaned_data.get('email')
+
+            # Split the full name into first and last name
+            if ' ' in full_name:
+                first_name, last_name = full_name.split(' ', 1)
+            else:
+                first_name = full_name
+                last_name = ''
+
             user.first_name = first_name
             user.last_name = last_name
-            user.username = email  # Set the email as the username
-            user.email = email  # Set the email
+            user.username = email
+            user.email = email
 
             try:
                 user.save()
@@ -50,6 +57,7 @@ def createuser(request):
         form = CreateUserForm()
 
     return render(request, 'createuser.html', {'form': form})
+
 
 @login_required
 def add_friends(request):
