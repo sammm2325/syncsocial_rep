@@ -13,8 +13,19 @@
 
   <form method="post">
     {% csrf_token %}
-    <label for="date">Enter Date (mm/dd/yyyy):</label> <!-- Prompt for date input -->
-    <input type="text" name="date" required><br><br> <!-- Assuming you're using a text input for date entry -->
+    <label for="date">Enter Date (mm/dd/yyyy):</label>
+    <input type="text" name="date" required><br><br>
     <input type="submit" value="Add Date">
   </form>
+
+  {% if free_dates %}
+    <h3>Your Free Dates:</h3>
+    <ul>
+      {% for free_date in free_dates %}
+        <li>{{ free_date.date }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No free dates added yet.</p>
+  {% endif %}
 {% endblock %}

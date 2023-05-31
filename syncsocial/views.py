@@ -11,6 +11,8 @@ from django.db.models import Q
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.db import IntegrityError
+from datetime import datetime
+from django.utils.dateparse import parse_date
 def home(request):
    # Logic for the home page
     return render(request, 'home.html', {'user': request.user})
@@ -86,9 +88,10 @@ def add_free_dates(request):
             return redirect('add_free_dates')
     else:
         form = AddFreeDatesForm()
-        
+
     free_dates = FreeDate.objects.filter(user=request.user)
     return render(request, 'addfreedates.html', {'form': form, 'free_dates': free_dates})
+
 
 @login_required
 def notifications(request):
@@ -106,7 +109,7 @@ def notifications(request):
 
 
 
-def logout(request):
+def logout_view(request):
     # Perform any additional logout operations if needed
     # For example, you can clear session data or perform other clean-up tasks
     
