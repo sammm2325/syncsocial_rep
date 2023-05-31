@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.contrib.auth import logout
 from django.shortcuts import redirect
-
+from django.db import IntegrityError
 def home(request):
    # Logic for the home page
     return render(request, 'home.html', {'user': request.user})
@@ -26,7 +26,6 @@ def login_view(request):
         form = LoginForm(request=request, data=request.POST)
     return render(request, 'login.html', {'form': form})
 
-
 def createuser(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -39,12 +38,16 @@ def createuser(request):
             user.last_name = last_name
             user.username = email  # Set the email as the username
             user.email = email  # Set the email
-            user.save()
-            return redirect('home')
+
+            try:
+                user.save()
+                return redirect('home')
+            except IntegrityError:
+                form.add_error('email', 'This email is already in use. Please enter a new one or login.')
     else:
         form = CreateUserForm()
-    return render(request, 'createuser.html', {'form': form})
 
+    return render(request, 'createuser.html', {'form': form})
 
 @login_required
 def add_friends(request):
